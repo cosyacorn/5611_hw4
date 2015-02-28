@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
 
   nflag=0;
 
+  //set up command line argument
   while((opt=getopt(argc, argv, "n:"))!=-1){
     switch (opt){
 
@@ -34,21 +35,25 @@ int main(int argc, char *argv[]){
     }
   }
 
+  //set value for no supplied argument
+  if(nflag==0) num=100;
+
   primes = malloc(sizeof(int)*num);
 
+
+  //set all numbers to have a prime value of 1 (true)
   for(i=2;i<num;i++)
     primes[i]=1;
 
   for(i=2;i<num;i++){
-    if(primes[i]){
-      for(j=i;i*j<num;j++){
-	primes[i*j]=0;
+    if(primes[i]){ //if number is prime
+      for(j=i;i*j<num;j++){//loop over multiples of i
+	primes[i*j]=0; //set prime value to 0 (false)
       }
     }
   }
 
-  z=1;
-
+  z=1; //counter for no of primes
   for(i=2;i<num;i++){
     if(primes[i]){
       printf("%dth prime is %ld\n", z++, i);
