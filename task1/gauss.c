@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<time.h>
+#include<ctype.h>
 
 int main(int argc, char *argv[]){
 
@@ -82,4 +83,6 @@ int main(int argc, char *argv[]){
   printf("The solution to the system of equations is:\n");
   for(i=0;i<num;i++) printf("%f\n", ans[i]);
 
+
+  return 0;
 }

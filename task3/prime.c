@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<omp.h>
-
+#include<ctype.h>
 
 int main(int argc, char *argv[]){
 
