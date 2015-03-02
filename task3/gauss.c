@@ -86,7 +86,6 @@ int main(int argc, char *argv[]){
   //#pragma omp parallel for private(j) schedule(dynamic,1)
   for(i=num-2;i>=0;i--){
     sum=0;
- #pragma omp parallel for reduction(+:sum) schedule(dynamic)
     for(j=i+1;j<num;j++){
       sum+=eqns[i][j]*ans[j];
     }
