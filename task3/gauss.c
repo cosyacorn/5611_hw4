@@ -3,6 +3,7 @@
 #include<unistd.h>
 #include<time.h>
 #include<ctype.h>
+#include<omp.h>
 
 int main(int argc, char *argv[]){
 
@@ -34,7 +35,7 @@ int main(int argc, char *argv[]){
     }
   }
 
-  if(nflag!=1) num=100;
+  if(nflag!=1) num=10;
 
   eqns=(double**)malloc(num*sizeof(double *));
   ans=(double*)malloc(num*sizeof(double));
@@ -56,7 +57,9 @@ int main(int argc, char *argv[]){
   printf("\n");
 
   //UPPER TRIANGULAR FORM
-  for(i=0;i<num;i++){
+ for(i=0;i<num;i++){
+#pragma omp parallel for private(j,k) schedule(dynamic,1)
+ 
     for(j=0;j<num;j++){
       if(j>i){
 	c=eqns[j][i]/eqns[i][i];
@@ -68,12 +71,23 @@ int main(int argc, char *argv[]){
   }
 
 
+  for(i=0;i<num;i++){
+    for(j=0;j<num+1;j++){
+      printf("%f ", eqns[i][j]);
+    }
+    printf("\n");
+  }
+  printf("\n");
+
+
   //BACK SUBSTITUTION
   ans[num-1]=eqns[num-1][num]/eqns[num-1][num-1];
   
+  //#pragma omp parallel for private(j) schedule(dynamic,1)
   for(i=num-2;i>=0;i--){
     sum=0;
-    for(j=i+1;j<=num;j++){
+ #pragma omp parallel for reduction(+:sum) schedule(dynamic)
+    for(j=i+1;j<num;j++){
       sum+=eqns[i][j]*ans[j];
     }
     ans[i]=(eqns[i][num]-sum)/eqns[i][i];

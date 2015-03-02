@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[]){
 
-  int opt, nflag, z, tid;
+  int opt, nflag, z;
   unsigned long int num, i, j;
   int *primes;
   
@@ -40,7 +40,6 @@ int main(int argc, char *argv[]){
   if(nflag==0) num=100;
 
   primes = malloc(sizeof(int)*num);
-  tid=omp_get_thread_num();
 
   //set all numbers to have a prime value of 1 (true)
 #pragma omp parallel for
@@ -60,7 +59,7 @@ int main(int argc, char *argv[]){
   z=1; //counter for no of primes
   for(i=2;i<num;i++){
     if(primes[i]){
-      printf("%dth prime is %ld\tfrom thread %d\n", z++, i, tid);
+      printf("%dth prime is %ld\n", z++, i);
     }
   }
 
